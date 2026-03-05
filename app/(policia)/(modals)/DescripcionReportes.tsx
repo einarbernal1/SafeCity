@@ -35,7 +35,7 @@ export default function DescripcionReportes() {
     nombre_denunciante: params.nombre_denunciante ? String(params.nombre_denunciante) : undefined,
   };
 
-  const HEROKU_BASE_URL = 'https://safe-city-1acefa1f4310.herokuapp.com'; // Sin la barra al final
+  const HEROKU_BASE_URL = 'https://safecity-1.onrender.com'; // Sin la barra al final
 const API_URL = `${HEROKU_BASE_URL}/atenderDenuncia`;
 
   const handleAtenderCaso = async () => {

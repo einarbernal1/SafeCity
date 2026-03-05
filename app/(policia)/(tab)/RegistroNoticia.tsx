@@ -38,7 +38,7 @@ const NoticiaScreen = () => {
   const router = useRouter();
 
   // URL DE PRODUCCIÓN (HEROKU)
-  const API_BASE = 'https://safe-city-1acefa1f4310.herokuapp.com';
+  const API_BASE = 'https://safecity-1.onrender.com';
 
   useEffect(() => {
     const loadUserData = async () => {

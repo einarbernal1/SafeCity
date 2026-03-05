@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 
 // URL del servidor (igual que en los otros archivos)
-const HEROKU_BASE_URL = 'https://safe-city.herokuapp.com'; 
+const HEROKU_BASE_URL = 'https://safecity-1.onrender.com'; 
 const API_URL = `${HEROKU_BASE_URL}`;
 
 interface Denuncia {

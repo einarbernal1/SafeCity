@@ -27,7 +27,7 @@ const LoginScreen = () => {
   const router = useRouter();
 
   // Configuración del servidor
- const HEROKU_BASE_URL = 'https://safe-city-1acefa1f4310.herokuapp.com'; // Sin la barra al final
+ const HEROKU_BASE_URL = 'https://safecity-1.onrender.com'; // Sin la barra al final
 const API_URL = `${HEROKU_BASE_URL}/login`;
 
   // Función para registrar notificaciones Push

@@ -53,11 +53,12 @@ const EditarDenunciaScreen = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   // --- CONFIGURACIÓN HEROKU ---
-  const API_BASE = 'https://safe-city-1acefa1f4310.herokuapp.com';
+  const RENDER_BASE_URL = 'https://safecity-1.onrender.com'; // Tu URL de Render
+  const API_URL = `${RENDER_BASE_URL}/denuncia`;
   
   
-  const API_URL_GET_DENUNCIA = `${API_BASE}/denuncia/${idDenuncia}`;
-  const API_URL_UPDATE_DENUNCIA = `${API_BASE}/denuncia/${idDenuncia}`;
+  const API_URL_GET_DENUNCIA = `${API_URL}/${idDenuncia}`;
+  const API_URL_UPDATE_DENUNCIA = `${API_URL}/${idDenuncia}`;
   // ----------------------------
 
   // Datos para los ComboBox

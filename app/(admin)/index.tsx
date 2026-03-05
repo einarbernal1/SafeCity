@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 // URL BASE ÚNICA PARA EVITAR ERRORES DE RUTA
-const API_BASE = 'https://safe-city-1acefa1f4310.herokuapp.com';
+const API_BASE = 'https://safecity-1.onrender.com';
 
 interface Policia {
   id_policia: number;

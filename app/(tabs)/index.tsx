@@ -67,7 +67,7 @@ const NoticiasScreen = () => {
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<CategoriaNoticia>('Reciente');
   const router = useRouter();
 
- const HEROKU_BASE_URL = 'https://safe-city-1acefa1f4310.herokuapp.com'; // Sin la barra al final
+ const HEROKU_BASE_URL = 'https://safecity-1.onrender.com'; // Sin la barra al final
 const API_URL_NOTICIAS = `${HEROKU_BASE_URL}/noticias`;
 
   useEffect(() => {

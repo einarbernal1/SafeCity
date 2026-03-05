@@ -30,7 +30,7 @@ const HistorialScreen = () => {
   const [idCiudadano, setIdCiudadano] = useState<number | null>(null);
   const router = useRouter();
 
-  const HEROKU_BASE_URL = 'https://safe-city-1acefa1f4310.herokuapp.com';
+  const HEROKU_BASE_URL = 'https://safecity-1.onrender.com';
   const API_URL_ATENDIDAS = `${HEROKU_BASE_URL}/denunciasUsuario/atendidas`;
   const API_URL_PENDIENTES = `${HEROKU_BASE_URL}/denunciasUsuario/pendientes`;
 

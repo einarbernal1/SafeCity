@@ -30,7 +30,7 @@ interface Denuncia {
 
 export default function ReportesScreen() {
   // CONFIGURACIÓN DE URL (HEROKU) - TU LÓGICA ORIGINAL
-  const API_BASE = 'https://safe-city-1acefa1f4310.herokuapp.com';
+  const API_BASE = 'https://safecity-1.onrender.com';
 
   const router = useRouter();
   const params = useLocalSearchParams();
