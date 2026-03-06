@@ -696,10 +696,11 @@ app.put('/denuncia/:idDenuncia', async (req, res) => {
 
   try {
     // Primero verificar si la denuncia existe y obtener su información actual
-    const [denunciaActual] = await pool.query(
-      'SELECT fue_modificada, fecha, hora, estado FROM denuncia WHERE id_denuncia = ?',
-      [idDenuncia]
-    );
+// Usa el timestamp exacto de creación (siempre UTC en MySQL)
+const [denunciaActual] = await pool.query(
+  'SELECT fue_modificada, estado, created_at FROM denuncia WHERE id_denuncia = ?',
+  [idDenuncia]
+);
 
     if (denunciaActual.length === 0) {
       return res.status(404).json({
@@ -727,7 +728,7 @@ app.put('/denuncia/:idDenuncia', async (req, res) => {
     }
 
     // Verificar si aún está dentro del tiempo límite (10 minutos)
-    const fechaRegistro = new Date(`${denuncia.fecha}T${denuncia.hora}`);
+    const fechaRegistro = new Date(denuncia.created_at); // MySQL TIMESTAMP ya es UTC
     const now = new Date();
     const diffMinutes = (now.getTime() - fechaRegistro.getTime()) / (1000 * 60);
 
