@@ -73,6 +73,18 @@ export default function PoliciaLayout() {
         }}
       />
     <Tabs.Screen
+        name="Rep_Esta"
+        options={{
+          title: 'Reportes', // Título en el header
+          tabBarLabel: 'Reportes', // Etiqueta en el tab bar
+          tabBarIcon: ({ color }) => (
+          <FontAwesome6 name="circle-user" size={28} color={color} />
+          ),
+          headerTitle: 'Reportes' // Título diferente para el header
+        }}
+      />
+
+    <Tabs.Screen
         name="PerfilPolicia"
         options={{
           title: 'Perfil Policia', // Título en el header

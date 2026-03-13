@@ -1077,6 +1077,64 @@ app.put('/policia/:id', async (req, res) => {
   }
 });
 
+// ENDPOINT: Obtener estadísticas de denuncias
+app.get('/estadisticas', async (req, res) => {
+  try {
+    // 1. Total de denuncias
+    const [totalRows] = await pool.query('SELECT COUNT(*) as total FROM denuncia');
+    const total = totalRows[0].total;
+
+    // 2. Denuncias por EPI (Para el gráfico de pastel)
+    const [epiRows] = await pool.query(`
+      SELECT modulo_epi, COUNT(*) as cantidad 
+      FROM denuncia 
+      WHERE modulo_epi IS NOT NULL
+      GROUP BY modulo_epi 
+      ORDER BY cantidad DESC
+    `);
+
+    // 3. Tipo de denuncia más frecuente (Para el recuadro)
+    const [tipoRows] = await pool.query(`
+      SELECT tipo, COUNT(*) as cantidad 
+      FROM denuncia 
+      WHERE tipo IS NOT NULL
+      GROUP BY tipo 
+      ORDER BY cantidad DESC LIMIT 1
+    `);
+
+    // 4. Crimen más frecuente por cada EPI (Para el listado final)
+    const [crimenEpiRows] = await pool.query(`
+      SELECT modulo_epi, tipo, COUNT(*) as cantidad
+      FROM denuncia
+      WHERE modulo_epi IS NOT NULL AND tipo IS NOT NULL
+      GROUP BY modulo_epi, tipo
+      ORDER BY modulo_epi, cantidad DESC
+    `);
+
+    // Procesar para quedarse solo con el más frecuente por EPI
+    const crimenPorEPI = {};
+    crimenEpiRows.forEach(row => {
+      if (!crimenPorEPI[row.modulo_epi]) {
+        crimenPorEPI[row.modulo_epi] = row;
+      }
+    });
+
+    res.json({
+      success: true,
+      data: {
+        total,
+        porEPI: epiRows,
+        tipoFrecuente: tipoRows[0] || null,
+        crimenPorEPI: Object.values(crimenPorEPI)
+      }
+    });
+
+  } catch (error) {
+    console.error('Error al obtener estadísticas:', error);
+    res.status(500).json({ success: false, message: 'Error interno al cargar estadísticas' });
+  }
+});
+
 // Iniciar servidor
 app.listen(PORT, () => {
     console.log(`Servidor backend corriendo en http://localhost:${PORT}`);
