@@ -43,6 +43,14 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="Rep_Ciu"
+        options={{
+          title: 'Reportes',
+          tabBarIcon: ({ color }) => <MaterialIcons size={28} name="bar-chart" color={color} />,
+        }}
+      />
+
+      <Tabs.Screen
         name="Historial"
         options={{
           title: 'Historial',

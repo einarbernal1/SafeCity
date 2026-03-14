@@ -23,35 +23,35 @@ const EPI_INFO: { [key: string]: { name: string; nameUpper: string; jurisdiction
   'EPI_N1_Coña Coña': {
     name: 'EPI N°1 Coña Coña',
     nameUpper: 'EPI N°1 COÑA COÑA',
-    jurisdiction: 'Jurisdicción Oeste',
+    jurisdiction: 'Zona Coña Coña',
     zona: 'Zona Oeste',
     numero: '1',
   },
   'EPI_N3_Jaihuayco': {
     name: 'EPI N°3 Jaihuayco',
     nameUpper: 'EPI N°3 JAIHUAYCO',
-    jurisdiction: 'Jurisdicción Aeropuerto',
+    jurisdiction: 'Zona Jaihuayco',
     zona: 'Zona Norte',
     numero: '3',
   },
   'EPI_N5_Alalay': {
     name: 'EPI N°5 Alalay',
     nameUpper: 'EPI N°5 ALALAY',
-    jurisdiction: 'Jurisdicción Sudeste',
+    jurisdiction: 'Zona Alalay',
     zona: 'Zona Central',
     numero: '5',
   },
   'EPI_N6_Central': {
     name: 'EPI N°6 Central',
     nameUpper: 'EPI N°6 CENTRAL',
-    jurisdiction: 'Jurisdicción Centro',
+    jurisdiction: 'Zona Central',
     zona: 'Zona Central',
     numero: '6',
   },
   'EPI_N7_Sur': {
     name: 'EPI N°7 Sur',
     nameUpper: 'EPI N°7 SUR',
-    jurisdiction: 'Jurisdicción Pucara',
+    jurisdiction: 'Zona Sur',
     zona: 'Zona Sur',
     numero: '7',
   },
@@ -62,6 +62,13 @@ const getEPINameUpper = (raw: string) => EPI_INFO[raw]?.nameUpper || raw.toUpper
 const getJurisdiction = (raw: string) => EPI_INFO[raw]?.jurisdiction || 'Jurisdicción General';
 const getZona = (raw: string) => EPI_INFO[raw]?.zona || 'Zona General';
 const getEPINumber = (raw: string) => EPI_INFO[raw]?.numero || '-';
+
+// Formatea el tipo de crimen: reemplaza "_" por espacio y capitaliza cada palabra
+const formatTipo = (tipo: string) =>
+  tipo
+    .split('_')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
 
 const EstadisticasScreen = () => {
   const [stats, setStats] = useState<any>(null);
@@ -178,7 +185,7 @@ const EstadisticasScreen = () => {
           <View style={styles.smallCard}>
             <Text style={styles.smallCardLabel}>TIPO DE DENUNCIA MÁS FRECUENTE</Text>
             <Text style={styles.smallCardValue} numberOfLines={2}>
-              {stats.tipoFrecuente ? stats.tipoFrecuente.tipo : 'N/A'}
+              {stats.tipoFrecuente ? formatTipo(stats.tipoFrecuente.tipo) : 'N/A'}
             </Text>
             <Text style={styles.highlightGreen}>
               {porcentajeTipoFrecuente}% del Total
@@ -233,7 +240,7 @@ const EstadisticasScreen = () => {
                 </View>
                 <View style={[styles.crimeBadge, isMostDangerous && styles.crimeBadgeDanger]}>
                   <Text style={[styles.crimeBadgeText, isMostDangerous && styles.crimeBadgeTextDanger]}>
-                    {item.tipo}
+                    {formatTipo(item.tipo)}
                   </Text>
                 </View>
               </View>
@@ -253,7 +260,7 @@ const styles = StyleSheet.create({
 
   // ── HEADER (simple, plano, igual al mockup y a RegistroNoticia) ──
   header: {
-    backgroundColor: '#1B3012',
+    backgroundColor: '#1a3b1a',
     paddingTop: Platform.OS === 'android' ? 48 : 56,
     paddingBottom: 18,
     paddingHorizontal: 20,
@@ -278,7 +285,7 @@ const styles = StyleSheet.create({
     borderColor: '#EBEBEB',
   },
   sectionLabel: {
-    fontSize: 13,
+    fontSize: 11,
     fontWeight: 'bold',
     color: '#1B3012',
     letterSpacing: 1.2,
@@ -403,7 +410,7 @@ const styles = StyleSheet.create({
   listBubbleTextDanger: { color: '#DC2626' },
 
   listEpiName: { fontSize: 14, fontWeight: 'bold', color: '#111827' },
-  listJurisdiction: { fontSize: 11, color: '#6B7280', marginTop: 2 },
+  listJurisdiction: { fontSize: 12, color: '#6B7280', marginTop: 2 },
 
   crimeBadge: {
     backgroundColor: '#2D4B1D',

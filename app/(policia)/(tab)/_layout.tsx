@@ -78,7 +78,7 @@ export default function PoliciaLayout() {
           title: 'Reportes', // Título en el header
           tabBarLabel: 'Reportes', // Etiqueta en el tab bar
           tabBarIcon: ({ color }) => (
-          <FontAwesome6 name="circle-user" size={28} color={color} />
+          <FontAwesome6 name="clipboard" size={28} color={color} />
           ),
           headerTitle: 'Reportes' // Título diferente para el header
         }}
