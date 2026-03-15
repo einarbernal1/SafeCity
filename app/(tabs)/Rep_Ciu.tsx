@@ -1,10 +1,9 @@
-import { Entypo, FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Stack } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Dimensions,
-  Platform,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -17,29 +16,28 @@ import HamburgerMenu from '../auth/MenuHamburguesa';
 const screenWidth = Dimensions.get('window').width;
 
 // ─────────────────────────────────────────────────────────────
-// 🎨 COLOR DE ACENTO — cambia este valor para probar otros colores
-// Ejemplos: ACCENT (naranja), '#2e5929' (verde), '#3A86FF' (azul)
-//            '#9B5DE5' (morado), '#DC2626' (rojo)
-// Define a default color for ACCENT
-const ACCENT = '#EC5B13'; // Replace with your desired color value
+// 🎨 COLORES PRINCIPALES — paleta verde institucional
+const ACCENT       = '#2e7d32'; // verde medio vibrante (íconos, bordes, etiquetas)
+const ACCENT_LIGHT = '#E8F5E9'; // verde muy pálido (fondos de íconos)
+const ACCENT_DARK  = '#1a3b1a'; // verde oscuro (carga, textos fuertes)
 // ─────────────────────────────────────────────────────────────
 
-// Colores para el gráfico de pastel (naranja / colores llamativos para ciudadano)
-const COLORS = [ACCENT, '#F48C06', '#3A86FF', '#2DC653', '#9B5DE5', '#F72585'];
+// Colores para el gráfico de pastel
+const COLORS = ['#2e7d32', '#66bb6a', '#3A86FF', '#FFD700', '#9B5DE5', '#F72585'];
 
 // Mapeo EPI → nombre legible y zona/barrio popular
 const EPI_INFO: {
   [key: string]: { name: string; barrio: string; numero: string };
 } = {
-  'EPI_N1_Coña Coña': { name: 'EPI N°1 Coña Coña', barrio: 'Coña Coña', numero: '1' },
-  'EPI_N3_Jaihuayco':  { name: 'EPI N°3 Jaihuayco',  barrio: 'Jaihuayco',  numero: '3' },
-  'EPI_N5_Alalay':     { name: 'EPI N°5 Alalay',      barrio: 'Alalay',      numero: '5' },
-  'EPI_N6_Central':    { name: 'EPI N°6 Central',     barrio: 'Cala Cala',   numero: '6' },
+  'EPI_N1_Coña Coña': { name: 'EPI N°1 Coña Coña', barrio: 'Coña Coña',      numero: '1' },
+  'EPI_N3_Jaihuayco':  { name: 'EPI N°3 Jaihuayco',  barrio: 'Jaihuayco',     numero: '3' },
+  'EPI_N5_Alalay':     { name: 'EPI N°5 Alalay',      barrio: 'Alalay',        numero: '5' },
+  'EPI_N6_Central':    { name: 'EPI N°6 Central',     barrio: 'Cala Cala',     numero: '6' },
   'EPI_N7_Sur':        { name: 'EPI N°7 Sur',         barrio: 'Valle Hermoso', numero: '7' },
 };
 
-const getEPIName  = (raw: string) => EPI_INFO[raw]?.name   || raw;
-const getBarrio   = (raw: string) => EPI_INFO[raw]?.barrio  || raw;
+const getEPIName = (raw: string) => EPI_INFO[raw]?.name   || raw;
+const getBarrio  = (raw: string) => EPI_INFO[raw]?.barrio || raw;
 
 // Formatea tipos con guion bajo → texto normal capitalizado
 const formatTipo = (tipo: string) =>
@@ -52,44 +50,38 @@ const formatTipo = (tipo: string) =>
 const CONSEJOS = [
   {
     icon: 'moon-o' as const,
-    iconLib: 'FontAwesome' as const,
     titulo: 'Evita zonas oscuras',
     desc: 'Circula por calles bien iluminadas, especialmente después de las 20:00 hrs.',
   },
   {
     icon: 'volume-up' as const,
-    iconLib: 'FontAwesome' as const,
     titulo: 'Reporta actividad sospechosa',
     desc: 'Usa la función "Reportar" para alertar rápido a las autoridades.',
   },
   {
     icon: 'group' as const,
-    iconLib: 'FontAwesome' as const,
     titulo: 'Seguridad Vecinal',
     desc: 'Mantente en contacto con tus vecinos a través de los canales oficiales.',
   },
   {
     icon: 'phone' as const,
-    iconLib: 'FontAwesome' as const,
     titulo: 'Ten el 110 a mano',
     desc: 'Guarda el número de emergencias policial en tu lista de contactos favoritos.',
   },
   {
     icon: 'lock' as const,
-    iconLib: 'FontAwesome' as const,
     titulo: 'Asegura tu domicilio',
     desc: 'Verifica cerraduras y no abras la puerta a desconocidos sin identificación.',
   },
   {
     icon: 'eye' as const,
-    iconLib: 'FontAwesome' as const,
     titulo: 'Sé observador',
     desc: 'Si algo te parece fuera de lugar, confía en tu instinto y busca ayuda.',
   },
 ];
 
 const EstadisticasCiudadanoScreen = () => {
-  const [stats, setStats]   = useState<any>(null);
+  const [stats, setStats]     = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   const API_URL = 'https://safecity-1.onrender.com/estadisticas';
@@ -111,7 +103,7 @@ const EstadisticasCiudadanoScreen = () => {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={ACCENT} />
+        <ActivityIndicator size="large" color={ACCENT_DARK} />
         <Text style={styles.loadingText}>Cargando estadísticas...</Text>
       </View>
     );
@@ -128,7 +120,7 @@ const EstadisticasCiudadanoScreen = () => {
     legendFontSize: 13,
   }));
 
-  const epiMasCasos = stats.porEPI.length > 0 ? stats.porEPI[0] : null;
+  const epiMasCasos   = stats.porEPI.length > 0 ? stats.porEPI[0] : null;
   const tipoFrecuente = stats.tipoFrecuente;
 
   return (
@@ -149,7 +141,6 @@ const EstadisticasCiudadanoScreen = () => {
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Reportes por Zona</Text>
 
-          {/* Layout horizontal: gráfico izquierda | leyenda derecha — igual al mockup */}
           <View style={styles.chartRow}>
             {/* Gráfico a la izquierda */}
             <PieChart
@@ -164,7 +155,7 @@ const EstadisticasCiudadanoScreen = () => {
               absolute
             />
 
-            {/* Leyenda a la derecha: punto | nombre | porcentaje en negrita */}
+            {/* Leyenda a la derecha */}
             <View style={styles.legendContainer}>
               {stats.porEPI.map((item: any, i: number) => {
                 const pct = Math.round((item.cantidad / stats.total) * 100);
@@ -239,7 +230,7 @@ const EstadisticasCiudadanoScreen = () => {
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: '#EDEDED' },
   loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#EDEDED' },
-  loadingText: { marginTop: 10, color: ACCENT, fontWeight: 'bold' },
+  loadingText: { marginTop: 10, color: ACCENT_DARK, fontWeight: 'bold' },
 
   scrollContent: { padding: 16, paddingBottom: 90 },
 
@@ -271,7 +262,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 16,
     padding: 16,
-    borderLeftWidth: 5,        // ← solo borde izquierdo, como en el mockup
+    borderLeftWidth: 5,
     borderLeftColor: ACCENT,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -283,7 +274,7 @@ const styles = StyleSheet.create({
     width: 46,
     height: 46,
     borderRadius: 23,
-    backgroundColor: '#FEE5D4',
+    backgroundColor: ACCENT_LIGHT,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10,
@@ -317,7 +308,7 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 21,
-    backgroundColor: '#FEE5D4',
+    backgroundColor: ACCENT_LIGHT,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -348,7 +339,7 @@ const styles = StyleSheet.create({
     width: 54,
     height: 54,
     borderRadius: 14,
-    backgroundColor: '#FEE5D4',
+    backgroundColor: ACCENT_LIGHT,
     justifyContent: 'center',
     alignItems: 'center',
     flexShrink: 0,
@@ -365,7 +356,8 @@ const styles = StyleSheet.create({
     color: '#555',
     lineHeight: 18,
   },
-  // ── LEYENDA CUSTOM DEL GRÁFICO (columna derecha) ──
+
+  // ── LEYENDA CUSTOM DEL GRÁFICO ──
   chartRow: {
     flexDirection: 'row',
     alignItems: 'center',
