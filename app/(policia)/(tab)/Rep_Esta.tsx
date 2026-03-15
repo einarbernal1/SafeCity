@@ -133,11 +133,10 @@ const EstadisticasScreen = () => {
         <View style={styles.card}>
           <Text style={styles.sectionLabel}>REPORTES POR EPI</Text>
 
-          {/* Wrapper relativo para superponer el agujero de la dona */}
           <View style={styles.chartWrapper}>
             <PieChart
               data={chartData}
-              width={screenWidth - 64}
+              width={screenWidth - 74}
               height={200}
               chartConfig={{ color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})` }}
               accessor="population"
@@ -146,8 +145,11 @@ const EstadisticasScreen = () => {
               hasLegend={false}
               absolute
             />
-            {/* Círculo blanco centrado manualmente sobre el gráfico */}
-            <View style={[styles.donutHole, { left: (screenWidth - 64) / 2 - 44 }]} pointerEvents="none">
+            {/* Círculo blanco: left = ancho_gráfico/2 - radio = (screenWidth-74)/2 - 44 */}
+            <View
+              style={[styles.donutHole, { left: (screenWidth - 74) / 2 - 44 }]}
+              pointerEvents="none"
+            >
               <Text style={styles.donutTotal}>{stats.total}</Text>
               <Text style={styles.donutLabel}>TOTAL</Text>
             </View>
@@ -295,12 +297,13 @@ const styles = StyleSheet.create({
 
   // ── DONA ──
   chartWrapper: {
-    position: 'relative',   // necesario para que absolute funcione dentro
+    position: 'relative',
     height: 200,
   },
   donutHole: {
     position: 'absolute',
-    top: 56,                // (200 - 88) / 2 = 56 → centrado vertical
+    top: 56,   // centrado vertical: (200 - 88) / 2 = 56
+    // 'left' se calcula inline con screenWidth para centrar horizontal exacto
     width: 88,
     height: 88,
     backgroundColor: '#fff',
