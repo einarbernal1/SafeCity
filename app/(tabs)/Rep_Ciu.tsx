@@ -149,33 +149,36 @@ const EstadisticasCiudadanoScreen = () => {
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Reportes por Zona</Text>
 
-          {/* Gráfico sin leyenda nativa — usamos leyenda custom debajo */}
-          <PieChart
-            data={chartData}
-            width={screenWidth - 64}
-            height={200}
-            chartConfig={{ color: (opacity = 1) => `rgba(0,0,0,${opacity})` }}
-            accessor="population"
-            backgroundColor="transparent"
-            paddingLeft="60"
-            hasLegend={false}
-            absolute
-          />
+          {/* Layout horizontal: gráfico izquierda | leyenda derecha — igual al mockup */}
+          <View style={styles.chartRow}>
+            {/* Gráfico a la izquierda */}
+            <PieChart
+              data={chartData}
+              width={180}
+              height={180}
+              chartConfig={{ color: (opacity = 1) => `rgba(0,0,0,${opacity})` }}
+              accessor="population"
+              backgroundColor="transparent"
+              paddingLeft="15"
+              hasLegend={false}
+              absolute
+            />
 
-          {/* Leyenda custom: punto | nombre EPI | porcentaje en negrita a la derecha */}
-          <View style={styles.legendContainer}>
-            {stats.porEPI.map((item: any, i: number) => {
-              const pct = Math.round((item.cantidad / stats.total) * 100);
-              return (
-                <View key={i} style={styles.legendRow}>
-                  <View style={styles.legendLeft}>
-                    <View style={[styles.legendDot, { backgroundColor: COLORS[i % COLORS.length] }]} />
-                    <Text style={styles.legendName}>{getEPIName(item.modulo_epi)}</Text>
+            {/* Leyenda a la derecha: punto | nombre | porcentaje en negrita */}
+            <View style={styles.legendContainer}>
+              {stats.porEPI.map((item: any, i: number) => {
+                const pct = Math.round((item.cantidad / stats.total) * 100);
+                return (
+                  <View key={i} style={styles.legendRow}>
+                    <View style={styles.legendLeft}>
+                      <View style={[styles.legendDot, { backgroundColor: COLORS[i % COLORS.length] }]} />
+                      <Text style={styles.legendName} numberOfLines={1}>{getEPIName(item.modulo_epi)}</Text>
+                    </View>
+                    <Text style={styles.legendPct}>{pct}%</Text>
                   </View>
-                  <Text style={styles.legendPct}>{pct}%</Text>
-                </View>
-              );
-            })}
+                );
+              })}
+            </View>
           </View>
         </View>
 
@@ -362,18 +365,28 @@ const styles = StyleSheet.create({
     color: '#555',
     lineHeight: 18,
   },
-  // ── LEYENDA CUSTOM DEL GRÁFICO ──
-  legendContainer: { marginTop: 12, gap: 8 },
+  // ── LEYENDA CUSTOM DEL GRÁFICO (columna derecha) ──
+  chartRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  legendContainer: {
+    flex: 1,
+    paddingLeft: 8,
+    gap: 10,
+    justifyContent: 'center',
+  },
   legendRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 2,
+    gap: 4,
   },
-  legendLeft: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  legendDot: { width: 12, height: 12, borderRadius: 6 },
-  legendName: { fontSize: 14, color: '#333' },
-  legendPct: { fontSize: 14, fontWeight: 'bold', color: '#111' },
+  legendLeft: { flexDirection: 'row', alignItems: 'center', gap: 6, flex: 1 },
+  legendDot: { width: 11, height: 11, borderRadius: 6, flexShrink: 0 },
+  legendName: { fontSize: 12, color: '#333', flexShrink: 1 },
+  legendPct: { fontSize: 13, fontWeight: 'bold', color: '#111', marginLeft: 4 },
 });
 
 export default EstadisticasCiudadanoScreen;

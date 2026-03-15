@@ -141,12 +141,12 @@ const EstadisticasScreen = () => {
               chartConfig={{ color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})` }}
               accessor="population"
               backgroundColor="transparent"
-              paddingLeft="80"
+              paddingLeft="15"
               hasLegend={false}
               absolute
             />
-            {/* Agujero central — efecto dona */}
-            <View style={styles.donutHole}>
+            {/* Agujero central — centrado exactamente sobre el gráfico */}
+            <View style={styles.donutHole} pointerEvents="none">
               <Text style={styles.donutTotal}>{stats.total}</Text>
               <Text style={styles.donutLabel}>TOTAL</Text>
             </View>
@@ -294,7 +294,6 @@ const styles = StyleSheet.create({
 
   // ── DONA ──
   chartWrapper: {
-    position: 'relative',
     alignItems: 'center',
     justifyContent: 'center',
     height: 200,
@@ -307,11 +306,7 @@ const styles = StyleSheet.create({
     borderRadius: 44,
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    // Sin elevation ni shadow para no interferir con el centrado visual
   },
   donutTotal: { fontSize: 22, fontWeight: 'bold', color: '#1B3012' },
   donutLabel: { fontSize: 10, fontWeight: 'bold', color: '#9CA3AF', letterSpacing: 1 },
