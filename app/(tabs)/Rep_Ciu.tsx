@@ -159,7 +159,7 @@ const EstadisticasCiudadanoScreen = () => {
               chartConfig={{ color: (opacity = 1) => `rgba(0,0,0,${opacity})` }}
               accessor="population"
               backgroundColor="transparent"
-              paddingLeft="15"
+              paddingLeft="40"
               hasLegend={false}
               absolute
             />

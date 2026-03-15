@@ -133,6 +133,7 @@ const EstadisticasScreen = () => {
         <View style={styles.card}>
           <Text style={styles.sectionLabel}>REPORTES POR EPI</Text>
 
+          {/* Wrapper relativo para superponer el agujero de la dona */}
           <View style={styles.chartWrapper}>
             <PieChart
               data={chartData}
@@ -141,12 +142,12 @@ const EstadisticasScreen = () => {
               chartConfig={{ color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})` }}
               accessor="population"
               backgroundColor="transparent"
-              paddingLeft="15"
+              paddingLeft="0"
               hasLegend={false}
               absolute
             />
-            {/* Agujero central — centrado exactamente sobre el gráfico */}
-            <View style={styles.donutHole} pointerEvents="none">
+            {/* Círculo blanco centrado manualmente sobre el gráfico */}
+            <View style={[styles.donutHole, { left: (screenWidth - 64) / 2 - 44 }]} pointerEvents="none">
               <Text style={styles.donutTotal}>{stats.total}</Text>
               <Text style={styles.donutLabel}>TOTAL</Text>
             </View>
@@ -294,19 +295,18 @@ const styles = StyleSheet.create({
 
   // ── DONA ──
   chartWrapper: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    position: 'relative',   // necesario para que absolute funcione dentro
     height: 200,
   },
   donutHole: {
     position: 'absolute',
+    top: 56,                // (200 - 88) / 2 = 56 → centrado vertical
     width: 88,
     height: 88,
     backgroundColor: '#fff',
     borderRadius: 44,
     justifyContent: 'center',
     alignItems: 'center',
-    // Sin elevation ni shadow para no interferir con el centrado visual
   },
   donutTotal: { fontSize: 22, fontWeight: 'bold', color: '#1B3012' },
   donutLabel: { fontSize: 10, fontWeight: 'bold', color: '#9CA3AF', letterSpacing: 1 },
